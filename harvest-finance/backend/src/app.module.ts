@@ -10,7 +10,18 @@ import { HealthModule } from './health/health.module';
 import { VerificationModule } from './verification/verification.module';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
+ feat/withdraw-api
 import { User, Order, Transaction, Verification, CreditScore, Vault, VaultDeposit } from './database/entities';
+=======
+import { UsersModule } from './users/users.module';
+import {
+  User,
+  Order,
+  Transaction,
+  Verification,
+  CreditScore,
+} from './database/entities';
+ main
 import { CreateInitialSchema1700000000000 } from './database/migrations/1700000000000-CreateInitialSchema';
 import { VaultsModule } from './vaults/vaults.module';
 
@@ -43,7 +54,10 @@ import { VaultsModule } from './vaults/vaults.module';
         const store = await redisStore({
           socket: {
             host: configService.get<string>('REDIS_HOST'),
-            port: parseInt(configService.get<string>('REDIS_PORT') || '6379', 10),
+            port: parseInt(
+              configService.get<string>('REDIS_PORT') || '6379',
+              10,
+            ),
           },
         });
         return {
@@ -53,6 +67,7 @@ import { VaultsModule } from './vaults/vaults.module';
       inject: [ConfigService],
     }),
     AuthModule,
+    UsersModule,
     HealthModule,
     OrdersModule,
     VerificationModule,
