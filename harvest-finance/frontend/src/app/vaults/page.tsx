@@ -103,12 +103,14 @@ export default function VaultsPage() {
         isOpen={isDepositOpen} 
         onClose={() => setIsDepositOpen(false)} 
         vault={selectedVault} 
+        onSuccess={() => undefined}
       />
       
       <WithdrawModal 
         isOpen={isWithdrawOpen} 
         onClose={() => setIsWithdrawOpen(false)} 
         vault={selectedVault} 
+        onSuccess={() => undefined}
       />
     </div>
   );

@@ -9,42 +9,62 @@ const mockVaults: VaultProps[] = [
   {
     id: "1",
     name: "USDC Stable Yield",
-    tokenSymbol: "USDC",
-    apy: 12.5,
+    asset: "USDC",
+    apy: "12.5%",
     tvl: "$1.2M",
+    balance: "$4,280.00",
+    walletBalance: "$1,120.00",
     icon: <Database className="w-5 h-5" />,
+    onDeposit: () => undefined,
+    onWithdraw: () => undefined,
   },
   {
     id: "2",
     name: "ETH Staking Vault",
-    tokenSymbol: "ETH",
-    apy: 4.8,
+    asset: "ETH",
+    apy: "4.8%",
     tvl: "$4.5M",
+    balance: "$2,920.00",
+    walletBalance: "$540.00",
     icon: <Coins className="w-5 h-5" />,
+    onDeposit: () => undefined,
+    onWithdraw: () => undefined,
   },
   {
     id: "3",
     name: "Harvest Liquidity",
-    tokenSymbol: "HARV",
-    apy: 24.2,
+    asset: "HARV",
+    apy: "24.2%",
     tvl: "$820K",
+    balance: "$1,640.00",
+    walletBalance: "$390.00",
     icon: <TrendingUp className="w-5 h-5" />,
+    onDeposit: () => undefined,
+    onWithdraw: () => undefined,
   },
   {
     id: "4",
     name: "WBTC Auto-Compound",
-    tokenSymbol: "WBTC",
-    apy: 3.1,
+    asset: "WBTC",
+    apy: "3.1%",
     tvl: "$12.1M",
+    balance: "$8,150.00",
+    walletBalance: "$890.00",
     icon: <Coins className="w-5 h-5" />,
+    onDeposit: () => undefined,
+    onWithdraw: () => undefined,
   },
   {
     id: "5",
     name: "XLM Rewards",
-    tokenSymbol: "XLM",
-    apy: 8.5,
+    asset: "XLM",
+    apy: "8.5%",
     tvl: "$340K",
+    balance: "$960.00",
+    walletBalance: "$210.00",
     icon: <Database className="w-5 h-5" />,
+    onDeposit: () => undefined,
+    onWithdraw: () => undefined,
   },
 ];
 
@@ -59,7 +79,7 @@ export function VaultOverview() {
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {mockVaults.map((vault) => (
-          <VaultCard key={vault.id} vault={vault} />
+          <VaultCard key={vault.id} {...vault} />
         ))}
       </div>
     </section>
