@@ -26,6 +26,9 @@ async function bootstrap() {
     }),
   );
 
+  // Enable Socket.io WebSocket adapter
+  app.useWebSocketAdapter(new IoAdapter(app));
+
   const config = new DocumentBuilder()
     .setTitle('Harvest Finance API')
     .setDescription(
