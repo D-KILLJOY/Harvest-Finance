@@ -71,6 +71,7 @@ import { VerificationModule } from './verification/verification.module';
 
 @Module({
   imports: [
+    AiQueryHistoryModule,
     ConfigModule.forRoot({
       isGlobal: true,
     }),
@@ -81,7 +82,8 @@ import { VerificationModule } from './verification/verification.module';
       },
     ]),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
+      imports: [
+    AiQueryHistoryModule,ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get<string>('DB_HOST'),
