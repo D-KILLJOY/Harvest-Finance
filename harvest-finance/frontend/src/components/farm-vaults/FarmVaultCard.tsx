@@ -65,6 +65,7 @@ export function FarmVaultCard({
           </div>
           <div className="relative z-10 flex items-start justify-between">
             <Stack gap="xs">
+              <Badge variant="secondary" className="text-white border-white/30 bg-white/10">
               <Badge
                 variant="default"
                 className="border-white/30 bg-white/10 text-white"

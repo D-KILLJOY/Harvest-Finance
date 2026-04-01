@@ -1,5 +1,9 @@
 "use client";
 
+import React, { useEffect } from "react";
+import { VaultOverview } from "@/components/dashboard/VaultOverview";
+import { CropInsurancePanel } from "@/components/dashboard/CropInsurancePanel";
+import { SeasonalTipsList, MilestoneNotification } from "@/components/seasonal-tips";
 import React, { useEffect, useMemo, useState } from "react";
 import { AIAssistantChat } from "@/components/ai-assistant";
 import { ConnectivityBanner } from "@/components/dashboard/ConnectivityBanner";
@@ -355,6 +359,12 @@ export default function DashboardPage() {
         <VaultActivityFeed />
       </div>
 
+      {/* Crop Insurance */}
+      <div className="pt-4 border-t border-gray-200">
+        <CropInsurancePanel />
+      </div>
+
+      {/* AI Assistant */}
       <AIAssistantChat context={aiContext} />
     </div>
   );

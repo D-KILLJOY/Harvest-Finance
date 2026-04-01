@@ -1,5 +1,8 @@
 "use client";
 
+import { create } from 'zustand';
+import freighterApi, { isConnected, signTransaction } from '@stellar/freighter-api';
+import { isConnected, getAddress, signTransaction } from '@stellar/freighter-api';
 import { create } from "zustand";
 import { isConnected, getAddress } from "@stellar/freighter-api";
 
@@ -44,6 +47,7 @@ export const useWalletStore = create<WalletState>((set, get) => ({
         return;
       }
 
+      const publicKeyResult = await freighterApi.getAddress();
       const publicKeyResult = await getAddress();
 
       if (publicKeyResult.error) {

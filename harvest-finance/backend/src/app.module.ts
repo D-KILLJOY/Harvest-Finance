@@ -10,6 +10,16 @@ import { AdminModule } from './admin/admin.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { VaultsModule } from './vaults/vaults.module';
+import { FarmIntelligenceModule } from './farm-intelligence/farm-intelligence.module';
+import { AchievementsModule } from './achievements/achievements.module';
+import { RewardsModule } from './rewards/rewards.module';
+import { AdminModule } from './admin/admin.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { ExportModule } from './export/export.module';
+import { FarmVaultsModule } from './farm-vaults/farm-vaults.module';
+import { InsuranceModule } from './insurance/insurance.module';
 import { DatabaseModule } from './database/database.module';
 import {
   Achievement,
@@ -26,6 +36,10 @@ import {
   Vault,
   VaultDeposit,
   Withdrawal,
+  CropCycle,
+  FarmVault,
+  InsurancePlan,
+  InsuranceSubscription,
 } from './database/entities';
 import { CreateInitialSchema1700000000000 } from './database/migrations/1700000000000-CreateInitialSchema';
 import { CreateVaultsAndDeposits1700000000003 } from './database/migrations/1700000000003-CreateVaultsAndDeposits';
@@ -34,6 +48,8 @@ import { CreateRewards1700000000005 } from './database/migrations/1700000000005-
 import { CreateNotifications1700000000006 } from './database/migrations/1700000000006-CreateNotifications';
 import { CreateWithdrawals1700000000007 } from './database/migrations/1700000000007-CreateWithdrawals';
 import { CreateFarmVaults1700000000008 } from './database/migrations/1700000000008-CreateFarmVaults';
+import { CreateInsurance1700000000009 } from './database/migrations/1700000000009-CreateInsurance';
+import { AddInsuranceNotificationType1700000000010 } from './database/migrations/1700000000010-AddInsuranceNotificationType';
 import { ExportModule } from './export/export.module';
 import { FarmIntelligenceModule } from './farm-intelligence/farm-intelligence.module';
 import { FarmVaultsModule } from './farm-vaults/farm-vaults.module';
@@ -82,6 +98,8 @@ import { VerificationModule } from './verification/verification.module';
           Withdrawal,
           CropCycle,
           FarmVault,
+          InsurancePlan,
+          InsuranceSubscription,
           VaultDeposit,
         ],
         migrations: [
@@ -92,7 +110,11 @@ import { VerificationModule } from './verification/verification.module';
           CreateNotifications1700000000006,
           CreateWithdrawals1700000000007,
           CreateFarmVaults1700000000008,
+          CreateInsurance1700000000009,
+          AddInsuranceNotificationType1700000000010,
         ],
+        synchronize: false, // Disable auto-sync, use migrations
+        migrationsRun: false, // Run migrations manually
         synchronize: false,
         migrationsRun: false,
         logging: configService.get<string>('NODE_ENV') === 'development',
@@ -119,6 +141,7 @@ import { VerificationModule } from './verification/verification.module';
     AdminModule,
     ExportModule,
     FarmVaultsModule,
+    InsuranceModule,
     RealtimeModule,
     LoggerModule,
   ],

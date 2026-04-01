@@ -1,5 +1,20 @@
 "use client";
 
+import React from 'react';
+import { 
+  Card, 
+  CardHeader, 
+  CardBody, 
+  Button, 
+  Badge,
+  Stack,
+  Inline,
+  Section
+} from '@/components/ui';
+import { Card, CardHeader, CardBody, Button, Badge, Stack, Inline, Section } from '@/components/ui';
+import { Wallet, TrendingUp, PieChart, Download, ArrowRight } from 'lucide-react';
+import { useAuthStore } from '@/lib/stores/auth-store';
+import axios from 'axios';
 import React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -51,6 +66,27 @@ export default function PortfolioPage() {
         </Container>
       </nav>
 
+        <Card variant="default">
+          <CardBody className="p-6">
+            <Stack gap="md">
+              <div className="flex items-center justify-between">
+                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                  <PieChart className="w-5 h-5" />
+                </div>
+                <Badge variant="secondary" size="sm">3 Vaults</Badge>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">Asset Allocation</p>
+                <div className="flex items-center gap-1 mt-1">
+                  <div className="h-2 w-1/2 bg-harvest-green-500 rounded-full" />
+                  <div className="h-2 w-1/4 bg-blue-500 rounded-full" />
+                  <div className="h-2 w-1/4 bg-gray-300 rounded-full" />
+                </div>
+              </div>
+            </Stack>
+          </CardBody>
+        </Card>
+      </div>
       <Container>
         <motion.div
           initial={{ opacity: 0, y: -10 }}
