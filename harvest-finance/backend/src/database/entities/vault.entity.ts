@@ -1,21 +1,17 @@
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
-  UpdateDateColumn,
+  Entity,
   Index,
-  OneToMany,
-  ManyToOne,
   JoinColumn,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
-import { User } from './user.entity';
 import { Deposit } from './deposit.entity';
+import { User } from './user.entity';
 
-
-/**
- * Vault types for different agricultural investment categories
- */
 export enum VaultType {
   CROP_PRODUCTION = 'CROP_PRODUCTION',
   EQUIPMENT_FINANCING = 'EQUIPMENT_FINANCING',
@@ -122,7 +118,10 @@ export class Vault {
   }
 
   get utilizationPercentage(): number {
-    if (Number(this.maxCapacity) === 0) return 0;
+    if (Number(this.maxCapacity) === 0) {
+      return 0;
+    }
+
     return (Number(this.totalDeposits) / Number(this.maxCapacity)) * 100;
   }
 

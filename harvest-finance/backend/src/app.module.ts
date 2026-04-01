@@ -1,13 +1,14 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { CacheModule } from '@nestjs/cache-manager';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AchievementsModule } from './achievements/achievements.module';
+import { AdminModule } from './admin/admin.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { OrdersModule } from './orders/orders.module';
-import { HealthModule } from './health/health.module';
-import { VerificationModule } from './verification/verification.module';
-import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { VaultsModule } from './vaults/vaults.module';
@@ -19,17 +20,21 @@ import { NotificationsModule } from './notifications/notifications.module';
 import { ExportModule } from './export/export.module';
 import { FarmVaultsModule } from './farm-vaults/farm-vaults.module';
 import { InsuranceModule } from './insurance/insurance.module';
+import { DatabaseModule } from './database/database.module';
 import {
-  User,
-  Order,
-  Transaction,
-  Verification,
-  CreditScore,
-  Vault,
-  Deposit,
-  Notification,
   Achievement,
+  CreditScore,
+  CropCycle,
+  Deposit,
+  FarmVault,
+  Notification,
+  Order,
   Reward,
+  Transaction,
+  User,
+  Verification,
+  Vault,
+  VaultDeposit,
   Withdrawal,
   CropCycle,
   FarmVault,
@@ -37,20 +42,39 @@ import {
   InsuranceSubscription,
 } from './database/entities';
 import { CreateInitialSchema1700000000000 } from './database/migrations/1700000000000-CreateInitialSchema';
+import { CreateVaultsAndDeposits1700000000003 } from './database/migrations/1700000000003-CreateVaultsAndDeposits';
 import { CreateAchievements1700000000004 } from './database/migrations/1700000000004-CreateAchievements';
 import { CreateRewards1700000000005 } from './database/migrations/1700000000005-CreateRewards';
-import { CreateVaultsAndDeposits1700000000003 } from './database/migrations/1700000000003-CreateVaultsAndDeposits';
 import { CreateNotifications1700000000006 } from './database/migrations/1700000000006-CreateNotifications';
 import { CreateWithdrawals1700000000007 } from './database/migrations/1700000000007-CreateWithdrawals';
 import { CreateFarmVaults1700000000008 } from './database/migrations/1700000000008-CreateFarmVaults';
 import { CreateInsurance1700000000009 } from './database/migrations/1700000000009-CreateInsurance';
 import { AddInsuranceNotificationType1700000000010 } from './database/migrations/1700000000010-AddInsuranceNotificationType';
+import { ExportModule } from './export/export.module';
+import { FarmIntelligenceModule } from './farm-intelligence/farm-intelligence.module';
+import { FarmVaultsModule } from './farm-vaults/farm-vaults.module';
+import { HealthModule } from './health/health.module';
+import { LoggerMiddleware } from './logger/logger.middleware';
+import { LoggerModule } from './logger/logger.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { OrdersModule } from './orders/orders.module';
+import { RealtimeModule } from './realtime/realtime.module';
+import { RewardsModule } from './rewards/rewards.module';
+import { UsersModule } from './users/users.module';
+import { VaultsModule } from './vaults/vaults.module';
+import { VerificationModule } from './verification/verification.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
@@ -76,6 +100,7 @@ import { AddInsuranceNotificationType1700000000010 } from './database/migrations
           FarmVault,
           InsurancePlan,
           InsuranceSubscription,
+          VaultDeposit,
         ],
         migrations: [
           CreateInitialSchema1700000000000,
@@ -101,6 +126,7 @@ import { AddInsuranceNotificationType1700000000010 } from './database/migrations
       ttl: 600,
       max: 100,
     }),
+    ScheduleModule.forRoot(),
     AuthModule,
     UsersModule,
     VaultsModule,
@@ -116,8 +142,20 @@ import { AddInsuranceNotificationType1700000000010 } from './database/migrations
     ExportModule,
     FarmVaultsModule,
     InsuranceModule,
+    RealtimeModule,
+    LoggerModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
