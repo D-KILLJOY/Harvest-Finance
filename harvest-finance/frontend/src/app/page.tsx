@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 
 // Dynamically import WorldMap to avoid SSR issues
 const WorldMap = dynamic(
@@ -83,22 +85,22 @@ const mapStats = [
 
 const footerLinks = {
   platform: [
-    { label: "Features", href: "#features" },
-    { label: "Smart Vaults", href: "/vaults" },
-    { label: "Staking", href: "/staking" },
-    { label: "Rewards", href: "/rewards" },
+    { label: "landing.footer.features", href: "#features" },
+    { label: "landing.footer.smart_vaults", href: "/vaults" },
+    { label: "landing.footer.staking", href: "/staking" },
+    { label: "landing.footer.rewards", href: "/rewards" },
   ],
   resources: [
-    { label: "Documentation", href: "#" },
-    { label: "Security Audits", href: "#" },
-    { label: "Whitepaper", href: "#" },
-    { label: "Help Center", href: "#" },
+    { label: "landing.footer.documentation", href: "#" },
+    { label: "landing.footer.security_audits", href: "#" },
+    { label: "landing.footer.whitepaper", href: "#" },
+    { label: "landing.footer.help_center", href: "#" },
   ],
   company: [
-    { label: "About Us", href: "#" },
-    { label: "Careers", href: "#" },
-    { label: "Blog", href: "#" },
-    { label: "Contact", href: "#" },
+    { label: "landing.footer.about_us", href: "#" },
+    { label: "landing.footer.careers", href: "#" },
+    { label: "landing.footer.blog", href: "#" },
+    { label: "landing.footer.contact", href: "#" },
   ],
 };
 
@@ -133,6 +135,7 @@ const socialLinks = [
 ];
 
 export default function Home() {
+  const { t } = useTranslation();
   return (
     <div className="page-shell">
       <div className="content-wrap">
@@ -141,24 +144,27 @@ export default function Home() {
             <p className="text-sm font-semibold uppercase tracking-[0.22em] text-[var(--brand-strong)]">
               Harvest Finance
             </p>
-            <p className="mt-1 text-sm text-slate-600">Agro-finance workflows with cleaner structure and clearer data.</p>
+            <p className="mt-1 text-sm text-slate-600">
+              {t('landing.header_subtitle')}
+            </p>
           </div>
 
           <nav className="nav-links">
             <a href="#overview" className="nav-link">
-              Overview
+              {t('landing.nav_overview')}
             </a>
             <a href="#analytics" className="nav-link">
-              Analytics
+              {t('landing.nav_analytics')}
             </a>
             <a href="#workflow" className="nav-link">
-              Workflow
+              {t('landing.nav_workflow')}
             </a>
+            <LanguageSwitcher />
             <Link href="/login" className="btn-secondary">
-              Sign in
+              {t('landing.signin')}
             </Link>
             <Link href="/signup" className="btn-primary sm:w-auto">
-              Get started
+              {t('landing.get_started')}
             </Link>
           </nav>
         </header>
@@ -173,21 +179,20 @@ export default function Home() {
           >
             <div className="hero-grid items-start">
               <div>
-                <span className="eyebrow">Issue #34 refresh</span>
+                <span className="eyebrow">{t('landing.eyebrow')}</span>
                 <h1 className="headline mt-5">
-                  Consistent green-and-white styling for every core workflow.
+                  {t('landing.hero_title')}
                 </h1>
                 <p className="support-text mt-5 max-w-2xl">
-                  The interface now uses shared spacing, stronger typography, and a unified agro palette
-                  across navigation, cards, forms, and analytics surfaces.
+                  {t('landing.hero_subtitle')}
                 </p>
 
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Link href="/signup" className="btn-primary sm:w-auto">
-                    Create an account
+                    {t('landing.get_started')}
                   </Link>
                   <Link href="/forgot-password" className="btn-secondary">
-                    Reset credentials
+                    {t('landing.signin')}
                   </Link>
                 </div>
               </div>
@@ -251,13 +256,13 @@ export default function Home() {
             <article className="section-card">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                 <div>
-                  <span className="eyebrow">Analytics</span>
+                  <span className="eyebrow">{t('landing.analytics_title')}</span>
                   <h2 className="mt-4 text-2xl font-semibold tracking-tight text-slate-950">
-                    Dashboard cards and chart layout now follow one rhythm
+                    {t('landing.analytics_title')}
                   </h2>
                 </div>
                 <p className="max-w-sm text-sm leading-6 text-slate-600">
-                  Consistent padding, responsive columns, and clearer text hierarchy make the data easier to scan.
+                  {t('landing.analytics_subtitle')}
                 </p>
               </div>
 
@@ -280,9 +285,9 @@ export default function Home() {
             </article>
 
             <aside className="section-card">
-              <span className="eyebrow">Navigation</span>
+              <span className="eyebrow">{t('landing.nav_workflow')}</span>
               <h2 className="mt-4 text-2xl font-semibold tracking-tight text-slate-950">
-                Cleaner paths for common actions
+                {t('landing.nav_workflow')}
               </h2>
               <div className="mt-6 space-y-4">
                 {[
@@ -318,12 +323,12 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
               >
-                <span className="eyebrow">Empowering Agriculture</span>
+                <span className="eyebrow">{t('landing.workflow.title')}</span>
                 <h2 className="mt-4 text-3xl sm:text-4xl font-bold tracking-tight text-slate-900">
-                  Meet Our Farmers
+                  {t('landing.features_title')}
                 </h2>
                 <p className="mt-4 text-lg text-slate-600">
-                  A collective of farmers leveraging smart tools and sustainable practices to maximize yield and efficiency.
+                  {t('landing.features_subtitle')}
                 </p>
               </motion.div>
 
@@ -379,31 +384,31 @@ export default function Home() {
         <footer className="mt-16 border-t border-slate-200 pt-8 pb-12">
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             <div>
-              <p className="text-sm font-semibold text-slate-700">Platform</p>
+              <p className="text-sm font-semibold text-slate-700">{t('landing.footer.platform')}</p>
               <ul className="mt-3 space-y-2">
                 {footerLinks.platform.map((link) => (
-                  <li key={link.label}><Link href={link.href} className="text-sm text-slate-500 hover:text-[var(--brand-strong)]">{link.label}</Link></li>
+                  <li key={link.label}><Link href={link.href} className="text-sm text-slate-500 hover:text-[var(--brand-strong)]">{t(link.label)}</Link></li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-sm font-semibold text-slate-700">Resources</p>
+              <p className="text-sm font-semibold text-slate-700">{t('landing.footer.resources')}</p>
               <ul className="mt-3 space-y-2">
                 {footerLinks.resources.map((link) => (
-                  <li key={link.label}><Link href={link.href} className="text-sm text-slate-500 hover:text-[var(--brand-strong)]">{link.label}</Link></li>
+                  <li key={link.label}><Link href={link.href} className="text-sm text-slate-500 hover:text-[var(--brand-strong)]">{t(link.label)}</Link></li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-sm font-semibold text-slate-700">Company</p>
+              <p className="text-sm font-semibold text-slate-700">{t('landing.footer.company')}</p>
               <ul className="mt-3 space-y-2">
                 {footerLinks.company.map((link) => (
-                  <li key={link.label}><Link href={link.href} className="text-sm text-slate-500 hover:text-[var(--brand-strong)]">{link.label}</Link></li>
+                  <li key={link.label}><Link href={link.href} className="text-sm text-slate-500 hover:text-[var(--brand-strong)]">{t(link.label)}</Link></li>
                 ))}
               </ul>
             </div>
             <div>
-              <p className="text-sm font-semibold text-slate-700">Follow us</p>
+              <p className="text-sm font-semibold text-slate-700">{t('landing.footer.follow_us')}</p>
               <div className="mt-3 flex space-x-4">
                 {socialLinks.map((link) => (
                   <Link key={link.name} href={link.href} className="text-slate-500 hover:text-[var(--brand-strong)]">{link.icon}</Link>
